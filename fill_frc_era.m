@@ -16,20 +16,35 @@
 %
 %  frc climatology file names:
 
-frc_dir = '/Users/michal/Data/ERA5/';
+frc_dir = '/atlantic3/ROMS_UCLA_DATA_FILES/ERA5/';
 
 % Set a date range for the forcing file
 start_date = datenum(2012,1,1);
-end_date   = datenum(2012,2,1);
+end_date   = datenum(2012,4,1);
 
-grdname = '/Users/michal/Data/Forcing/Epac2km.nc';
-disname = '/Users/michal/Data/Forcing/Epac2km_cdist.mat';
+grdname = '/atlantic3/rbarkan/EPAC2km/Epac2km.nc';
+disname = '/atlantic2/michalshaham/Forcing/Epac2km_cdist.mat';
 % a rivname is needed if add_rivers = 1 ; it needs to be generated previously 
 rivname = '/paracas/nmolem/NEPAC/nepac_swf.nc';
 
 swcorrname = [frc_dir 'SSR_correction.nc'];
 
-root_name = '/Users/michal/Data/Forcing/Epac2km';
+root_name = '/atlantic2/michalshaham/Forcing/Epac2km';
+
+% frc_dir = '/Users/michal/Data/ERA5/';
+% 
+% % Set a date range for the forcing file
+% start_date = datenum(2012,1,1);
+% end_date   = datenum(2012,2,1);
+% 
+% grdname = '/Users/michal/Data/Forcing/Epac2km.nc';
+% disname = '/Users/michal/Data/Forcing/Epac2km_cdist.mat';
+% % a rivname is needed if add_rivers = 1 ; it needs to be generated previously 
+% rivname = '/paracas/nmolem/NEPAC/nepac_swf.nc';
+% 
+% swcorrname = [frc_dir 'SSR_correction.nc'];
+% 
+% root_name = '/Users/michal/Data/Forcing/Epac2km';
 
 coarse_frc   = 0; % forcing files at half the resolution of the grid
 wind_dropoff = 1; 
