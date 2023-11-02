@@ -16,20 +16,20 @@
 %
 %  frc climatology file names:
 
-frc_dir = '/atlantic3/ROMS_UCLA_DATA_FILES/ERA5/';
+frc_dir = '/Users/michal/Data/ERA5/';
 
 % Set a date range for the forcing file
 start_date = datenum(2012,1,1);
-end_date   = datenum(2012,4,1);
+end_date   = datenum(2012,2,1);
 
-grdname = '/atlantic3/rbarkan/EPAC2km/Epac2km.nc';
-disname = '/atlantic2/michalshaham/Forcing/Epac2km_cdist.mat';
+grdname = '/Users/michal/Data/Forcing/Epac2km.nc';
+disname = '/Users/michal/Data/Forcing/Epac2km_cdist.mat';
 % a rivname is needed if add_rivers = 1 ; it needs to be generated previously 
 rivname = '/paracas/nmolem/NEPAC/nepac_swf.nc';
 
 swcorrname = [frc_dir 'SSR_correction.nc'];
 
-root_name = '/atlantic2/michalshaham/Forcing/Epac2km';
+root_name = '/Users/michal/Data/Forcing/Epac2km';
 
 coarse_frc   = 0; % forcing files at half the resolution of the grid
 wind_dropoff = 1; 
@@ -40,7 +40,7 @@ add_rivers   = 0; % Adds river runoff as additional precipitation
 %%%%%%%%%%%%%%%%%%% END USER-DEFINED VARIABLES %%%%%%%%%%%%%%%%%%%%%%%
 
 %
-eralist = dir([frc_dir 'ERA5*']);
+eralist = dir([frc_dir 'ERA5*'])
 nfiles = length(eralist);
 
 % find the right files
@@ -49,8 +49,8 @@ for i=1:nfiles
     datname = [frc_dir eralist(i).name];
     stime(i) = double(ncread(datname,'time',[1],[1]))/24 + datenum(1900,1,1);
 end
-t0 = find(stime<start_date,1,'last');
-t1 = find(stime>end_date,1,'first');
+t0 = find(stime<=start_date,1,'last')
+t1 = find(stime>=end_date,1,'first')
 
 % trim list of filenames
 eralist = eralist(t0:t1);
@@ -67,6 +67,7 @@ else
     lon = ncread(grdname,'lon_rho');
     lat = ncread(grdname,'lat_rho');
     ang = ncread(grdname,'angle');
+    mask = ncread(grdname,'mask_rho');
 end
 [nx,ny] = size(lon);
 
@@ -76,6 +77,7 @@ sina = sin(ang);
 
 grd.lon = lon;
 grd.lat = lat;
+grd.mask = mask;
 
 lon0 = min(lon(:));
 lon1 = max(lon(:));
@@ -184,8 +186,8 @@ for i = 1:nfiles
         vgrid =-sina.*u + cosa.*v;
         
         if wind_dropoff
-            ugrid = ugrid.*mult;
-            vgrid = vgrid.*mult;
+            ugrid = ugrid.*mult';
+            vgrid = vgrid.*mult';
         end
         
         ncwrite(frcname,'uwnd',ugrid,[1 1 irec]);

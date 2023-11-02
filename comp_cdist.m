@@ -17,6 +17,7 @@ disp(' Read in the grid')
 lon  = ncread(grdname,'lon_rho')';
 lat  = ncread(grdname,'lat_rho')';
 mask = ncread(grdname,'mask_rho')';
+size(lon)
 [Mp, Lp] = size(lon);
 d2r = pi/180;
 
@@ -50,22 +51,22 @@ for it = 1:1
                 for j = j0:j1
                     [j j1]
                     for i = i0:i1
-                        if mask(i,j) < 1 
-                          cdist(i,j) = 0;
+                        if mask(j,i) < 1 
+                          cdist(j,i) = 0;
                         else
                           dist =  gc_dist(lon(j,i)*d2r,lat(j,i)*d2r,mlon*d2r,mlat*d2r);
                           mdist = min(min(dist));
-                          cdist(i,j) = min(mdist,cdist(i,j));
+                          cdist(j,i) = min(mdist,cdist(j,i));
                         end
                     end
                 end
             else
-            cdist(j0:j1,i0:i1) = min(3e5,cdist(j0:j1,i0:i1));
+                cdist(j0:j1,i0:i1) = min(3e5,cdist(j0:j1,i0:i1));
             end
         end
     end
 end
-
+size(cdist)
 cdist(cdist>3e5) = 3e5;
 
 imagesc(cdist);axis xy;colorbar
